@@ -100,13 +100,17 @@ CALCULATE (
 )
 **Convert to SQL:**
 WITH Returnees AS (
+   
     -- Students who returned in the last 30 days
+    
     SELECT DISTINCT StudentID
     FROM Fact_RefundsVouchers
     WHERE ReturnDate >= CURRENT_DATE - INTERVAL '30' DAY
 ),
 StudentAttendance AS (
+
     -- Calculate attendance % per student
+    
     SELECT
         a.StudentID,
         CASE 
@@ -118,6 +122,8 @@ StudentAttendance AS (
         ON a.StudentID = r.StudentID
     GROUP BY a.StudentID
 )
+
 -- Average attendance % across all returnees
+
 SELECT AVG(AttendancePct) AS AvgAttendancePctLast30Days
 FROM StudentAttendance;
