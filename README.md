@@ -77,6 +77,7 @@ AVERAGEX(
     )
 )
 
+SQL:
 WITH StudentAvg AS (
     SELECT
         StudentID,
@@ -88,6 +89,7 @@ SELECT
     AVG(AvgQuarterGrade) AS AvgQuarterGradePerStudent
 FROM StudentAvg;
 
+```DAX
 Avg Attendance % (Last 30d Returnees) =
 VAR ReturnCutoff = TODAY() - 30
 RETURN
@@ -105,6 +107,7 @@ CALCULATE (
     Fact_RefundsVouchers[ReturnDate] >= ReturnCutoff
 )
 
+SQL:
 WITH Returnees AS (
     -- Students who returned in the last 30 days
     SELECT DISTINCT StudentID
