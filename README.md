@@ -83,7 +83,7 @@ SELECT
     AVG(AvgQuarterGrade) AS AvgQuarterGradePerStudent
 FROM StudentAvg;
 ---
-In DAX:
+'''In DAX:
 Avg Attendance % (Last 30d Returnees) = 
 VAR ReturnCutoff =
     TODAY() - 30
