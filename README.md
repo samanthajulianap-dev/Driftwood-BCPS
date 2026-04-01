@@ -69,7 +69,7 @@ Key features:
 
 **DAX:**
 ```DAX
-Average Quarter Grade per Student =
+DAX: Average Quarter Grade per Student =
 AVERAGEX(
     VALUES(Fact_FundingExpenditure[StudentID]),
     CALCULATE(
@@ -89,7 +89,7 @@ SELECT
     AVG(AvgQuarterGrade) AS AvgQuarterGradePerStudent
 FROM StudentAvg;
 
-```DAX
+DAX:
 Avg Attendance % (Last 30d Returnees) =
 VAR ReturnCutoff = TODAY() - 30
 RETURN
