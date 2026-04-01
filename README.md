@@ -1,5 +1,5 @@
 # Driftwood-BCPS
-# Cyberlocke Sample School Funding Dashboard
+## Cyberlocke Sample School Funding Dashboard
 
 ### Overview
 This is a **sample Power BI dashboard** created for a client (BCPS) to showcase a quarterly view of school funding, expenditures, and student performance. The dashboard uses **synthetic data** representing county schools to demonstrate key reporting metrics and insights.
@@ -63,15 +63,20 @@ Key features:
 
 ---
 
-### DAX to SQL
-In DAX:
-Average Quarter Grade per Student = 
+## DAX to SQL Examples
+
+### 1. Average Quarter Grade per Student
+
+**DAX:**
+```DAX
+Average Quarter Grade per Student =
 AVERAGEX(
     VALUES(Fact_FundingExpenditure[StudentID]),
-    CALCULATE(AVERAGE(Fact_FundingExpenditure[QuarterGrade]))
+    CALCULATE(
+        AVERAGE(Fact_FundingExpenditure[QuarterGrade])
+    )
 )
----
-Convert to SQL:
+
 WITH StudentAvg AS (
     SELECT
         StudentID,
@@ -82,27 +87,24 @@ WITH StudentAvg AS (
 SELECT
     AVG(AvgQuarterGrade) AS AvgQuarterGradePerStudent
 FROM StudentAvg;
----
-'''In DAX:
-Avg Attendance % (Last 30d Returnees) = 
-VAR ReturnCutoff =
-    TODAY() - 30
+
+Avg Attendance % (Last 30d Returnees) =
+VAR ReturnCutoff = TODAY() - 30
 RETURN
 CALCULATE (
     AVERAGEX (
-        VALUES (Fact_RefundsVouchers[StudentID] ),
-        CALCULATE (
-            DIVIDE (
-                SUM ( fact_attendance[IsPresent] ),
-                COUNTROWS ( fact_attendance ),
+        VALUES(Fact_RefundsVouchers[StudentID]),
+        CALCULATE(
+            DIVIDE(
+                SUM(fact_attendance[IsPresent]),
+                COUNTROWS(fact_attendance),
                 0
             )
         )
     ),
     Fact_RefundsVouchers[ReturnDate] >= ReturnCutoff
 )
----
-Convert to SQL:
+
 WITH Returnees AS (
     -- Students who returned in the last 30 days
     SELECT DISTINCT StudentID
@@ -110,7 +112,7 @@ WITH Returnees AS (
     WHERE ReturnDate >= CURRENT_DATE - INTERVAL '30' DAY
 ),
 StudentAttendance AS (
--- Calculate attendance % per student
+    -- Calculate attendance % per student
     SELECT
         a.StudentID,
         CASE 
