@@ -64,14 +64,15 @@ Key features:
 ---
 
 ### DAX to SQL
-**In DAX:** Average Quarter Grade per Student = 
+**In DAX:** 
+'''Average Quarter Grade per Student = 
 AVERAGEX(
     VALUES(Fact_FundingExpenditure[StudentID]),
     CALCULATE(AVERAGE(Fact_FundingExpenditure[QuarterGrade]))
-)
+)'''
 ---
 **Convert to SQL:** 
-WITH StudentAvg AS (
+'''WITH StudentAvg AS (
     SELECT
         StudentID,
         AVG(QuarterGrade) AS AvgQuarterGrade
@@ -80,7 +81,7 @@ WITH StudentAvg AS (
 )
 SELECT
     AVG(AvgQuarterGrade) AS AvgQuarterGradePerStudent
-FROM StudentAvg;
+FROM StudentAvg;'''
 ---
 **In DAX:** 
 Avg Attendance % (Last 30d Returnees) = 
@@ -99,10 +100,10 @@ CALCULATE (
         )
     ),
     Fact_RefundsVouchers[ReturnDate] >= ReturnCutoff
-)
+)'''
 ---
 **Convert to SQL:**
-WITH Returnees AS (
+'''**WITH Returnees AS (
     -- Students who returned in the last 30 days
     SELECT DISTINCT StudentID
     FROM Fact_RefundsVouchers
@@ -123,4 +124,4 @@ StudentAttendance AS (
 )
 -- Average attendance % across all returnees
 SELECT AVG(AttendancePct) AS AvgAttendancePctLast30Days
-FROM StudentAttendance;
+FROM StudentAttendance;**'''
