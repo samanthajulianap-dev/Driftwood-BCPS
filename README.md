@@ -69,6 +69,7 @@ AVERAGEX(
     VALUES(Fact_FundingExpenditure[StudentID]),
     CALCULATE(AVERAGE(Fact_FundingExpenditure[QuarterGrade]))
 )
+---
 **Convert to SQL:** 
 WITH StudentAvg AS (
     SELECT
@@ -80,8 +81,9 @@ WITH StudentAvg AS (
 SELECT
     AVG(AvgQuarterGrade) AS AvgQuarterGradePerStudent
 FROM StudentAvg;
-
-**In DAX:** Avg Attendance % (Last 30d Returnees) = 
+---
+**In DAX:** 
+Avg Attendance % (Last 30d Returnees) = 
 VAR ReturnCutoff =
     TODAY() - 30
 RETURN
@@ -98,19 +100,16 @@ CALCULATE (
     ),
     Fact_RefundsVouchers[ReturnDate] >= ReturnCutoff
 )
+---
 **Convert to SQL:**
 WITH Returnees AS (
-   
     -- Students who returned in the last 30 days
-    
     SELECT DISTINCT StudentID
     FROM Fact_RefundsVouchers
     WHERE ReturnDate >= CURRENT_DATE - INTERVAL '30' DAY
 ),
 StudentAttendance AS (
-
-    -- Calculate attendance % per student
-    
+-- Calculate attendance % per student
     SELECT
         a.StudentID,
         CASE 
@@ -122,8 +121,6 @@ StudentAttendance AS (
         ON a.StudentID = r.StudentID
     GROUP BY a.StudentID
 )
-
 -- Average attendance % across all returnees
-
 SELECT AVG(AttendancePct) AS AvgAttendancePctLast30Days
 FROM StudentAttendance;
